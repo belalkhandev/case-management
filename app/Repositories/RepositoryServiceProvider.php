@@ -7,11 +7,14 @@ class RepositoryServiceProvider extends ServiceProvider {
 
     public  function register()
     {
-        //user repository bind
-        $this->app->bind(
-            'App\Repositories\UserInterface',
-            'App\Repositories\UserRepository'
-        );
+        $models = [
+            'User',
+            'Package'
+        ];
+
+        foreach ($models as $model) {
+            $this->app->bind("App\Repositories\\{$model}\\{$model}Interface", "App\Repositories\\{$model}\\{$model}Repository");
+        }
     }
 
 }

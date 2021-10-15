@@ -15,7 +15,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([
-    'prefix' => 'user'
-], function ($route) {
+    'prefix' => 'user',
+    'middleware' => 'api'
+], function ($router) {
+    $router->post('login', [\App\Http\Controllers\Api\UsersController::class, 'login']);
+    $router->post('register', [\App\Http\Controllers\Api\UsersController::class, 'register']);
+});
 
+Route::group([
+    'prefix' => 'user',
+    'middleware' => 'auth:api'
+], function ($router) {
+    $router->post('otpVerify', [\App\Http\Controllers\Api\UsersController::class, 'otpVerify']);
+    $router->post('otpResend', [\App\Http\Controllers\Api\UsersController::class, 'otpResend']);
+    $router->post('subscription/create', [\App\Http\Controllers\Api\SubscriptionController::class, 'store']);
 });
